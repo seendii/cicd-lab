@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate HTML Exists
+        run: test -f index.html
+
+      - name: Validate CSS Exists
+        run: test -f style.css
+
+      - name: Validate JS Exists
+        run: test -f script.js
+
+      - name: Build
+        run: |
+          mkdir build
+          cp *.html *.css *.js build/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: todo-app
+          path: build
